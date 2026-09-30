@@ -12,7 +12,7 @@ namespace Imasu.Steamworks
         public string Description => "Distance VOIP (Steam voice codec). Optional addon — install only if you want voice.";
 
         public string InstallUrl =>
-            "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.steamworks.voice#com.imasu.steamworks.voice@0.1.3";
+            "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.steamworks.voice#com.imasu.steamworks.voice@0.1.3";
 
         public bool IsEnabled(ImasuSteamworksConfig config) => config != null && config.voipEnabled;
 

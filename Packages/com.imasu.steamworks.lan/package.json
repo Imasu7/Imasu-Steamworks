@@ -5,12 +5,12 @@
   "description": "Optional LAN addon for Imasu Steamworks: KCP/Telepathy play without Steam (UDP discovery + join-by-IP). Separate from the Dedicated addon - install only if you want no-Steam play.",
   "unity": "6000.0",
   "license": "MIT",
-  "licensesUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/blob/main/Packages/com.imasu.steamworks.lan/LICENSE.md",
-  "documentationUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/tree/main/Docs/steamworks",
-  "changelogUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/releases",
+  "licensesUrl": "https://github.com/Imasu7/Imasu-Steamworks/blob/main/Packages/com.imasu.steamworks.lan/LICENSE.md",
+  "documentationUrl": "https://github.com/Imasu7/Imasu-Steamworks/tree/main/Docs/steamworks",
+  "changelogUrl": "https://github.com/Imasu7/Imasu-Steamworks/releases",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Imasu7/Hidden-Dev-HDRP.git"
+    "url": "https://github.com/Imasu7/Imasu-Steamworks.git"
   },
   "author": {
     "name": "Imasu"

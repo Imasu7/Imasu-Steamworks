@@ -24,8 +24,8 @@ Add to your `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.imasu.facepunch": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1",
-    "com.mirrornetworking.mirror": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
+    "com.imasu.facepunch": "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1",
+    "com.mirrornetworking.mirror": "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
   }
 }
 ```

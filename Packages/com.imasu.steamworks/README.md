@@ -7,7 +7,7 @@ Reusable **Steam multiplayer** for Unity 6 — lobbies, Mirror transport, distan
 **In a new Unity 6 project** (via the Package Manager):
 
 ```
-https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.steamworks#v0.1.0
+https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.steamworks#v0.1.0
 ```
 
 Or open `Imasu → Steamworks Control Center` in the project that already has it and use the **Modules** tab — it installs/removes/updates the optional addons for you.

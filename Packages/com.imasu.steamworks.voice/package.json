@@ -5,12 +5,12 @@
   "description": "Optional distance-VOIP addon for Imasu Steamworks (Steam voice codec over Mirror). Install only if you want voice chat. Not included in core.",
   "unity": "6000.0",
   "license": "MIT",
-  "licensesUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/blob/main/Packages/com.imasu.steamworks.voice/LICENSE.md",
-  "documentationUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/tree/main/Docs/steamworks",
-  "changelogUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/releases",
+  "licensesUrl": "https://github.com/Imasu7/Imasu-Steamworks/blob/main/Packages/com.imasu.steamworks.voice/LICENSE.md",
+  "documentationUrl": "https://github.com/Imasu7/Imasu-Steamworks/tree/main/Docs/steamworks",
+  "changelogUrl": "https://github.com/Imasu7/Imasu-Steamworks/releases",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Imasu7/Hidden-Dev-HDRP.git"
+    "url": "https://github.com/Imasu7/Imasu-Steamworks.git"
   },
   "author": {
     "name": "Imasu"

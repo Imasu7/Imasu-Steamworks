@@ -4,13 +4,13 @@
       "id": "com.mirrornetworking.mirror",
       "displayName": "Mirror (MIT)",
       "description": "High-level Unity networking library. Mirror's own repo has no UPM package.json (unitypackage/Asset Store only), so this free git-path shim hosts the vendored MIT v96.11.0 source. Not sold.",
-      "installUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
+      "installUrl": "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
     },
     {
       "id": "com.imasu.facepunch",
       "displayName": "Facepunch + FizzyFacepunch (MIT)",
       "description": "Steam API wrapper DLLs + the Mirror Steam transport. Free repackage; not sold.",
-      "installUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1"
+      "installUrl": "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1"
     }
   ],
   "modules": [

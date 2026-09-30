@@ -5,12 +5,12 @@
   "description": "Reusable Steam multiplayer stack: Steam lobby session, Mirror transport via FizzyFacepunch, distance-based voice, LAN/KCP fallback, and a one-stop configuration window (Imasu Steamworks Control Center). Game-agnostic - add to any Unity 6 project.",
   "unity": "6000.0",
   "license": "MIT",
-  "licensesUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/blob/main/Packages/com.imasu.steamworks/LICENSE.md",
-  "documentationUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/tree/main/Docs/steamworks",
-  "changelogUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/releases",
+  "licensesUrl": "https://github.com/Imasu7/Imasu-Steamworks/blob/main/Packages/com.imasu.steamworks/LICENSE.md",
+  "documentationUrl": "https://github.com/Imasu7/Imasu-Steamworks/tree/main/Docs/steamworks",
+  "changelogUrl": "https://github.com/Imasu7/Imasu-Steamworks/releases",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Imasu7/Hidden-Dev-HDRP.git"
+    "url": "https://github.com/Imasu7/Imasu-Steamworks.git"
   },
   "author": {
     "name": "Imasu"

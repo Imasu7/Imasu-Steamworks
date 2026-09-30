@@ -12,7 +12,7 @@ namespace Imasu.Steamworks.Dedicated
         public string Description => "Headless dedicated-server hosting. Separate from LAN.";
 
         public string InstallUrl =>
-            "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.steamworks.dedicated#com.imasu.steamworks.dedicated@0.1.3";
+            "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.steamworks.dedicated#com.imasu.steamworks.dedicated@0.1.3";
 
         // Presence-based: running headless is gated by the -imasuDedicated flag, not the config.
         public bool IsEnabled(ImasuSteamworksConfig config) => true;

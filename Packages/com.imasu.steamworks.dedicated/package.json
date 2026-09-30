@@ -5,12 +5,12 @@
   "description": "Headless dedicated-server hosting for Imasu Steamworks: KCP server boot via the -imasuDedicated flag, a Linux headless build helper, and a Control Center tab. A separate addon from LAN (depends on core only).",
   "unity": "6000.0",
   "license": "MIT",
-  "licensesUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/blob/main/Packages/com.imasu.steamworks.dedicated/LICENSE.md",
-  "documentationUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/tree/main/Docs/steamworks",
-  "changelogUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/releases",
+  "licensesUrl": "https://github.com/Imasu7/Imasu-Steamworks/blob/main/Packages/com.imasu.steamworks.dedicated/LICENSE.md",
+  "documentationUrl": "https://github.com/Imasu7/Imasu-Steamworks/tree/main/Docs/steamworks",
+  "changelogUrl": "https://github.com/Imasu7/Imasu-Steamworks/releases",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Imasu7/Hidden-Dev-HDRP.git"
+    "url": "https://github.com/Imasu7/Imasu-Steamworks.git"
   },
   "author": {
     "name": "Imasu"

@@ -239,7 +239,7 @@ namespace Imasu.Steamworks.Editor
                             RemoveModule(row.id);
                     }
                     if (published && GUILayout.Button("Release notes", GUILayout.Width(104)))
-                        Application.OpenURL("https://github.com/Imasu7/Hidden-Dev-HDRP/releases/tag/" + row.tag);
+                        Application.OpenURL("https://github.com/Imasu7/Imasu-Steamworks/releases/tag/" + row.tag);
                     EditorGUILayout.EndHorizontal();
                 }
                 else if (published)
@@ -253,7 +253,7 @@ namespace Imasu.Steamworks.Editor
                     if (GUILayout.Button("Copy URL", GUILayout.Width(80)))
                         CopyInstallUrl(row);
                     if (GUILayout.Button("Release notes", GUILayout.Width(104)))
-                        Application.OpenURL("https://github.com/Imasu7/Hidden-Dev-HDRP/releases/tag/" + row.tag);
+                        Application.OpenURL("https://github.com/Imasu7/Imasu-Steamworks/releases/tag/" + row.tag);
                     EditorGUILayout.EndHorizontal();
                 }
                 else
@@ -474,7 +474,7 @@ namespace Imasu.Steamworks.Editor
         // ------------------------------------------------------------------ //
 
         static string GitUrl(ModuleRow row) =>
-            "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=" + row.installPath + "#" + row.tag;
+            "https://github.com/Imasu7/Imasu-Steamworks.git?path=" + row.installPath + "#" + row.tag;
 
         static string TagVersion(string tag)
         {
@@ -578,14 +578,14 @@ namespace Imasu.Steamworks.Editor
                 id = "com.mirrornetworking.mirror",
                 displayName = "Mirror (MIT)",
                 description = "High-level Unity networking library. Mirror's own repo has no UPM package.json (unitypackage/Asset Store only), so this free git-path shim hosts the vendored MIT v96.11.0 source. Not sold.",
-                installUrl = "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
+                installUrl = "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
             },
             new CatalogDependency
             {
                 id = "com.imasu.facepunch",
                 displayName = "Facepunch + FizzyFacepunch (MIT)",
                 description = "Steam API wrapper DLLs + the Mirror Steam transport. Free repackage; not sold.",
-                installUrl = "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1"
+                installUrl = "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1"
             }
         };
 

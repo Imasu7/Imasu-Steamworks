@@ -5,7 +5,7 @@
   "description": "Free, MIT-repackaged dependencies for Imasu Steamworks: Facepunch.Steamworks (Steamworks API wrapper DLLs) and the FizzyFacepunch Mirror transport (Mirror.FizzySteam). Installed automatically by the Imasu Steamworks Control Center. Not sold - the underlying code is MIT and comes from the official sources (see LICENSE.md).",
   "unity": "6000.0",
   "license": "MIT",
-  "licensesUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/blob/main/Packages/com.imasu.facepunch/LICENSE.md",
+  "licensesUrl": "https://github.com/Imasu7/Imasu-Steamworks/blob/main/Packages/com.imasu.facepunch/LICENSE.md",
   "documentationUrl": "https://github.com/Facepunch/Facepunch.Steamworks",
   "keywords": [
     "steam",

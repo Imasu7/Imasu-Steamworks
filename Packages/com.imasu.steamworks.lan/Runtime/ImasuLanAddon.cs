@@ -12,7 +12,7 @@ namespace Imasu.Steamworks
         public string Description => "KCP/Telepathy LAN play without Steam. A separate addon from Dedicated.";
 
         public string InstallUrl =>
-            "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.steamworks.lan#com.imasu.steamworks.lan@0.1.3";
+            "https://github.com/Imasu7/Imasu-Steamworks.git?path=Packages/com.imasu.steamworks.lan#com.imasu.steamworks.lan@0.1.3";
 
         public bool IsEnabled(ImasuSteamworksConfig config) => config != null && config.allowNonSteamServers;
 
