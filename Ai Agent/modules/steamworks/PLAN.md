@@ -27,15 +27,17 @@ We develop that package **inside this project** (Hidden Dev is still a stock HDR
 Proposed layout when we start code:
 
 ```
-Unity Projects/
-  Hidden Dev HDRP/                      <- this game
-    Packages/
-      com.mirrornetworking.mirror/      <- Mirror 96.11.0 (vendored, Slice 1 done)
-      com.hidden.steam-multiplayer/     <- reusable package (embedded, Slice 2 started)
-        Runtime/                        <- lobby, steam, voice, network manager, transport
-        Plugins/                        <- Facepunch DLLs + steam_api native libs
-        Samples~/                       <- join / setup / waiting-room UI (later)
-    Assets/                             <- Hidden maps, characters, weapons (later)
+Imasu Steamworks/                       <- this repo: UPM package monorepo, canonical source
+  Packages/
+    com.mirrornetworking.mirror/        <- Mirror 96.11.0 (vendored MIT, free shim)
+    com.imasu.facepunch/               <- Facepunch DLLs + FizzyFacepunch (free MIT)
+    com.imasu.steamworks/              <- reusable core package
+      Runtime/                         <- lobby, steam, network manager, transport, UI, spawns
+      Editor/                          <- Control Center + Imasu Package Manager windows
+      Plugins/                         <- Facepunch DLLs + steam_api native libs
+      Samples~/                        <- starter UI templates
+    com.imasu.steamworks.voice/        <- addons: voice / lan / dedicated (core only)
+  Docs/steamworks/                     <- consumer-facing offline HTML
 ```
 
 Decision D12: the package is embedded under `Packages/` in this repo, not a sibling folder. New networking code builds directly inside it — no staging area needed.

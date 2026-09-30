@@ -1,59 +1,60 @@
 # Glossary
 
-Short definitions for people new to this kind of project. Stack docs in `stacks/` go deeper.
+Short definitions for people new to this kind of repo. Package-level detail lives in
+`Ai Agent/modules/<name>/TECH.md`.
 
-**Agent** — An AI coding assistant working in this repo. These markdown files are how one agent hands work to the next.
+**Addon** — A separate UPM package that adds one capability to `com.imasu.steamworks` (voice, LAN, dedicated server). Addons implement interfaces defined in core and depend on core; core never depends on an addon. "Installed == active": there is no switch that turns an addon off.
 
-**Assets folder** — Unity's `Assets/` directory. This is where *this game's* scenes, models, and scripts live. Reusable multiplayer code should *not* sprawl here; it belongs in a package.
+**AudioSource** — A Unity component that plays sound. In 3D mode the volume falls off with distance from the listener.
 
-**AudioSource** — A Unity component that plays sound. If it is "3D", the sound gets quieter (and can pan left/right) based on how far the listener (usually the camera / player) is.
+**Catalog** — The list of gamemodes and maps a project offers, held in the config asset under `gameModes[] -> maps[]`. `catalog.json` is a different thing: the editor-side list of packages the Package Manager window can install.
 
-**Client** — A player who connected to someone else's game. They are not the host.
+**Client** — A player connected to someone else's session.
 
-**Dedicated server** — A computer that runs the game with no player on it. We are *not* doing this for v1. The host is a player.
+**Dedicated server** — A machine that runs the game with no local player. Provided by `com.imasu.steamworks.dedicated`.
 
-**Deprecation** — A warning that an old function still works but Unity wants you to use a newer one. Example: `FindObjectOfType` is deprecated in Unity 6; use `FindFirstObjectByType`.
+**Embedded package** — A package folder placed under a project's `Packages/` folder so Unity compiles it from source with no download. That is how all six packages live in this repo.
 
-**Facepunch.Steamworks** — A C# library that talks to Steam (lobbies, friends, voice, overlay) with a relatively friendly API.
+**Facepunch.Steamworks** — The C# library used to talk to Steam (init, lobbies, friends, voice, overlay).
 
-**FizzyFacepunch** — A small adapter so Mirror can send game data through Steam's networking instead of a raw IP address.
+**FizzyFacepunch** — The Mirror transport that carries game data over Steam Networking Sockets / Relay instead of a raw IP address.
 
-**HDRP** — High Definition Render Pipeline. Unity's high-end graphics path (lighting, fog, reflections). This project uses it. The old template uses URP instead, which is why we must not copy its materials/scenes.
+**Guard define** — A compile-time symbol (for example `IMASU_LAN`) that limits which code an assembly compiles. Addons are gated on being installed, not on a guard define; the define mechanism exists only where a project genuinely needs it.
 
-**Host / listen-server** — One player's machine runs the server *and* they play on it. Friends connect to them. Like hosting a LAN game in older PC titles.
+**Host / listen server** — One player's machine runs the server and plays in it; others connect to it.
 
-**Hidden Source** — A Half-Life multiplayer mod: one "Hidden" predator (almost invisible) hunts a team of IRIS agents. Our game's design reference.
+**Host migration** — When the host leaves, a remaining player is promoted to host and the session survives instead of collapsing.
 
-**KCP** — A fast, IP-based network transport that comes with Mirror. We use it for local testing because Steam P2P cannot connect you to yourself.
+**KCP** — Mirror's fast IP-based UDP transport. Used for local editor testing and LAN play, because Steam P2P cannot connect a client to itself.
 
-**Lobby** — A Steam waiting area before the match. People join, see who is there, then the host starts the real game scene.
+**Lobby** — The Steam-side waiting room: members, settings, and invites, created before the match scene loads.
 
-**Mirror** — A Unity multiplayer library. You mark objects as networked; Mirror keeps them in sync between host and clients.
+**Master** — `ImasuSteamworksMaster`, the component on the Session Manager prefab that mirrors the config asset and pushes values to every other component via `ApplyToComponents()`. Only the first one survives as a `DontDestroyOnLoad` singleton.
 
-**NAT / relay** — Home routers block random incoming connections. Steam Relay is Steam's detour so two players can still talk without opening ports.
+**Mirror** — The networking library: it tracks who is host, spawns networked objects, and keeps their state in sync.
 
-**NetworkIdentity** — A Mirror component that says "this object exists on the network." Without it, other players cannot see that object as a synced thing.
+**NAT / relay** — Home routers block unsolicited inbound connections. Steam Relay is Steam's detour, so two players can connect without opening ports.
 
-**Package / UPM** — Unity Package Manager. A folder with a `package.json` that Unity can add to a project. Our multiplayer kit will be one of these, so a new project can add it in one step.
+**NetworkIdentity** — The Mirror component that marks an object as networked. Without it other players cannot see it as a synced object.
 
-**P2P (peer to peer)** — Players connect to each other (with Steam helping) rather than all talking to a rented server.
+**OpenUPM** — A public Unity package registry. These packages are not on it; the tag naming follows its `<package>@<version>` convention, and the tags are consumed directly from git.
 
-**PCM** — Raw audio samples (the waveform). Steam Voice compresses PCM to send it, then we decompress back to PCM to play it.
+**Package / UPM** — Unity Package Manager. A folder with a `package.json` that any project can add by path or by git URL.
 
-**Push-to-talk** — Voice only sends while you hold a key. Typical for this genre; stops the lobby sounding like an open mic.
+**PCM** — Raw audio samples (the waveform). Steam Voice compresses PCM for transmission; the receiver decompresses it back to PCM to play.
 
-**Render pipeline** — The graphics engine inside Unity (HDRP, URP, or Built-in). Mixing two pipelines in one project is a mess.
+**Push-to-talk** — Voice only transmits while a key is held.
 
-**Steam App ID** — The number Steam uses for an app. `480` is Spacewar, Valve's sandbox ID for testing. A real game gets its own ID from Steamworks.
+**Scoped tag** — A git tag named `<package>@<version>` (for example `com.imasu.steamworks@0.1.3`). It is what consumers pin in an install URL; it is created by the publish workflow, not by hand.
 
-**Steam Voice** — Steam's microphone capture and compression. It does *not* handle distance. We do distance in Unity.
+**Session Manager** — The prefab a game places in each playable scene. It carries the master, the network manager, and the session UI contract.
 
-**Transport** — The "how bits travel" layer under Mirror: KCP over IP, or Fizzy over Steam.
+**Steam App ID** — The number Steam uses to identify an app. `480` (Spacewar) is the development ID used for bring-up; a shipped game gets its own from Steamworks.
 
-**uGUI** — Unity's built-in UI system (canvases, buttons, text). We use this for join / setup / waiting room.
+**Steam Voice** — Steam's microphone capture and compression. It carries no distance information — the package does distance attenuation in Unity.
 
-**Unity CLI** — Command-line Unity, so an agent can compile the project without clicking around the editor.
+**Transport** — The layer that moves bytes: KCP over IP, or FizzyFacepunch over Steam.
 
-**.unitypackage** — An older "zip of Assets" format. Easy to import, hard to update. We prefer UPM instead.
+**uGUI** — Unity's built-in UI system. The package builds its session screens in code rather than shipping hand-authored scenes.
 
-**URP** — Universal Render Pipeline. What the old template uses. Not what this game uses.
+**Vendored** — Third-party source copied into this repo under `Packages/` and re-updated by hand from an upstream tag. `com.mirrornetworking.mirror` is vendored; never edit it in place.

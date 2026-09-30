@@ -1,8 +1,11 @@
 # Agent rules
 
-These rules apply to every agent and every session on this project. Read them before editing anything.
+These rules apply to every agent and every session in this repo. Read them before editing
+anything.
 
-If a user instruction and these rules conflict on *product* direction, the user wins. If they conflict on *handoff hygiene* (changelog, status, not dumping the old template into this project), these rules win unless the user explicitly overrides them.
+If a user instruction and these rules conflict on *product* direction, the user wins. If they
+conflict on *handoff hygiene* (changelog, status, version bumps), these rules win unless the
+user explicitly overrides them.
 
 ## 1. Always load project memory first
 
@@ -10,108 +13,128 @@ Before planning or writing code, read:
 
 1. This file
 2. `Ai Agent/STATUS.md`
-3. `Ai Agent/OVERVIEW.md` (module map)
+3. `Ai Agent/OVERVIEW.md` (package map)
 4. `Ai Agent/CHANGELOG.md` (at least the latest entries)
 5. `Ai Agent/DECISIONS.md`
-6. The `PLAN.md` of the module you are working in (`Ai Agent/modules/<name>/`)
+6. `Ai Agent/modules/<name>/PLAN.md` for the package you are touching
 
-Do not rediscover the architecture from scratch. Do not reopen decided questions unless the user asks.
+Do not rediscover the architecture from scratch. Do not reopen decided questions unless the
+user asks.
 
 ## 2. Always update CHANGELOG.md
 
 This is the non-negotiable rule.
 
-After **any** completed unit of work — docs, code, package install, bugfix, decision change — append an entry to `Ai Agent/CHANGELOG.md`.
+After **any** completed unit of work — docs, code, package install, bugfix, decision change —
+append an entry to `Ai Agent/CHANGELOG.md` (newest first, `## YYYY-MM-DD — short title`).
 
-A valid entry includes:
+A valid entry states the date, what changed in past tense, which packages/files were touched,
+and anything a future agent must know (errors hit, Unity version notes, tag names).
 
-- Date (`YYYY-MM-DD`)
-- What changed, in past tense
-- Which files / packages / scenes were touched
-- Anything a future agent must know (errors hit, Unity version notes, Steam App ID, etc.)
+Do **not** finish a turn that changed the repo without a changelog update. If work was
+attempted and failed, log it as a blocked note so the next agent does not repeat it.
 
-Do **not** finish a turn that changed the project without a changelog update.
+`STATUS.md` must also stay true: update it when a milestone moves next → done, the next task
+changes, something becomes blocked, or a decision changes.
 
-If work was attempted and failed, log that too under a "Failed / blocked" note so the next agent does not repeat it.
+## 3. No game code in this repo
 
-## 3. Keep STATUS.md true
+This repo is a reusable UPM package monorepo. `Packages/` is the product.
 
-`STATUS.md` must match reality.
+Never add game-specific code, assets, scenes, prefabs, roles, maps, gameplay, or anything
+lives under `Assets/Hidden` or the game layer. Those belong to the `Hidden Dev HDRP` game
+repo. Package code may only reference Unity, Mirror, Facepunch, and the interfaces defined
+inside this repo.
 
-Update it when:
+If a change needs a game-specific concept, the concept belongs to the consumer. Model it as a
+config field, an interface, or a prefab component — do not hard-code it.
 
-- A milestone moves from next → done
-- The next task changes
-- Something becomes blocked
-- A decision in `DECISIONS.md` changes (also update that file)
+## 4. Core never references an addon
 
-`STATUS.md` is a snapshot, not a diary. The diary is `CHANGELOG.md`.
+`com.imasu.steamworks` compiles with **zero** references to `com.imasu.steamworks.voice`,
+`.lan`, or `.dedicated`. Core owns the interfaces (`IVoiceMember`, `ILanDiscovery`,
+`IImasuModule`); addons implement them and are active because they are installed
+("installed == active"). Addons may depend on core; core must never depend on an addon.
 
-## 4. Do not merge the old Unity project into this one
+Adding an `asmdef` reference from core into an addon assembly is a bug, not a design choice.
 
-The old Steamworks template (`UnityMultiplayer-MirrorAndSteamworks-Template`, Unity 2022.3 + URP) was **removed on 2026-08-24** — everything it contributed was ported (Mirror 96.11.0 vendored, Facepunch 2.4.1 + FizzyFacepunch in `Packages/com.hidden.steam-multiplayer/`). It is no longer needed and can be re-cloned from GitHub if ever required.
+## 5. Vendored third-party code is never hand-edited
 
-**Never** copy a URP template's `Assets/` tree, URP settings, TextMesh Pro dump, Mirror Examples, Edgegap hosting, or store assets into this repo.
+`Packages/com.mirrornetworking.mirror` is vendored MIT Mirror 96.11.0 (official repo ships
+only a `.unitypackage`, so a UPM git dependency is impossible — see `DECISIONS.md` D4).
 
-Allowed: reading its lobby / network scripts and porting the *ideas* (and small cleaned-up C# files) into our UPM package.
+Update it by re-vendoring a new upstream tag, never by patching a file in place. Same rule
+for the DLLs in `Packages/com.imasu.facepunch`.
 
-## 5. Multiplayer lives in a package, not in game Assets
+`com.mirrornetworking.mirror` and `com.imasu.facepunch` are **not sold** — they are free MIT
+dependencies the Control Center installs. Keep them out of any sold artifact.
 
-Reusable Steam multiplayer code belongs in a UPM package (`com.hidden.steam-multiplayer`), not scattered through `Assets/`.
+## 6. Public API and behaviour changes need a version bump
 
-`Assets/` is for the Hidden Source-style game (maps, characters, weapons, game modes).
+Changing a package's public API or runtime behaviour requires:
 
-Do not vendor a full copy of Mirror into `Assets/`. Add Mirror as a git/UPM dependency.
+1. Bumping `version` in that package's `package.json`.
+2. A matching `Ai Agent/CHANGELOG.md` entry.
+3. If an addon changed, bumping its `com.imasu.steamworks` dependency to the new core
+   version.
+4. Re-syncing `catalog.json` tags and any `InstallUrl` constants to the new version.
 
-## 6. Scope discipline
+Docs-only or editor-only changes still need the changelog entry; they only need the version
+bump if consumers can observe them.
 
-Current package milestone (must work before Hidden gameplay):
+## 7. Release procedure
 
-- Steam create / join lobby
-- Join screen
-- Game setup screen (host)
-- Waiting room screen
-- Start match → spawn a networked dummy player
-- Distance-based voice chat
-- Local (non-Steam) host/client path for editor testing
+1. Bump versions in `Packages/<pkg>/package.json`, `catalog.json`, and any `InstallUrl`
+   constants to the same value.
+2. Commit + push `main`.
+3. Push the trigger tag for each changed package:
+   `git tag release/<pkg>@<ver> && git push origin refs/tags/release/<pkg>@<ver>`
+4. `.github/workflows/publish.yml` validates `package.json` version == tag version, creates
+   the consumer-facing scoped tag `<pkg>@<ver>`, `npm pack`s a `.tgz`, and drafts a Release.
+5. **Known gotcha:** GitHub sometimes silently drops a tag-push workflow run (hit 0.1.0 and
+   0.1.1). If no run appears within ~1 minute while the tag is on the remote, delete and
+   re-push the `release/*` tag. Fallback: `workflow_dispatch` with the same `pkg` + `ver`
+   inputs runs the identical job.
+6. Verify: `git ls-remote --tags origin` shows the scoped tag, the Release has the `.tgz`,
+   and a consumer clone of the scoped tag resolves.
 
-Do **not** start Hidden vs IRIS gameplay, invisibility, weapons, or networking the HDRP sample third-person controller until the package milestone above works.
+## 8. Document the repo, not the game
 
-## 7. Unity 6 hygiene
+Any change to an **install URL**, the **tag scheme**, or the **publish workflow** needs a new
+entry in `Ai Agent/DECISIONS.md` — those strings are the consumer contract and are spread
+across `ImasuPackageManager.cs`, `catalog.json`, package `package.json` metadata, addon
+runtime `InstallUrl` constants, package READMEs, and `Docs/steamworks/`.
 
-- Target editor is **6000.5.9f1** (see `ProjectSettings/ProjectVersion.txt`).
-- Replace obsolete APIs (`FindObjectOfType` → `FindFirstObjectByType` / `FindAnyObjectByType`, or better, cached references / singletons).
-- Do not import URP assets into this HDRP project.
-- Prefer Unity CLI compile checks after package or script changes when the CLI is available.
+Do not claim something worked unless you verified it (compile, play mode, or Steam test).
 
-## 8. Steam testing rules
+## 9. Editor performance contract (D24)
 
-- Steam must be running for Steam lobby / voice tests.
-- Default App ID during bring-up is **480 (Spacewar)** until a real App ID exists.
-- Fizzy / Steam P2P cannot connect a client to itself. Local two-player tests use KCP/Telepathy, or two machines / two Steam accounts.
+No `OnGUI` frame in an editor window may scan the project, the scene, or the package
+registry. Use caches (`SceneCache`, spawn/package caches) and event-driven invalidation.
+`AssetDatabase.FindAssets("t:SceneAsset")` is expensive and must never run per-frame. See
+`Ai Agent/modules/steamworks/TECH.md`.
 
-## 9. Docs stay beginner-friendly
+## 10. Unity 6 hygiene
 
-When you add or change stack docs in `Ai Agent/stacks/`, write for a teammate who is new to code. Explain the *why* and the *everyday analogy*, then the technical how.
+- Target editor is Unity **6000.5.x**; the `com.imasu.*` packages declare `"unity": "6000.0"`.
+- Replace obsolete APIs (`FindObjectOfType` → `FindFirstObjectByType` / `FindAnyObjectByType`,
+  or better, cached references / singletons).
+- Build Profiles: `UnityEditor.Build.Profile.BuildProfile.GetActiveBuildProfile()` plus the
+  instance `scenes` property. The static `GetScenes` / `SetScenes` do not exist.
+- Smoke/harness verification needs a machine with a display and (for Steam paths) the Steam
+  client running. There are no unit tests in this repo — do not claim test coverage that does
+  not exist.
 
-## 10. Small, reversible steps
+## 11. Small, reversible steps
 
-Prefer the next thin slice that can compile and be described in STATUS.md over a large rewrite.
+Prefer the next thin slice that compiles and can be described in `STATUS.md` over a large
+rewrite.
 
-## 12. Module work updates the module's docs folder
-
-Work on a module must also update that module's own docs (`Ai Agent/modules/<name>/`): its `PLAN.md`/`ROADMAP.md` status, `ISSUES.md`, or `TECH.md` as appropriate — not only the root files. Root `STATUS.md`/`CHANGELOG.md` still get the entry, but the module folder is where the module's long-term state lives. Do not edit another module's docs folder from a different module's work.
-
-## 13. No per-repaint scans in editor windows (perf contract D24)
-
-Editor windows that repaint on mouse move must never scan the project, the scene, or the package registry inside `OnGUI`. Use caches (`SceneCache`, spawn/package caches) and event-driven invalidation. See `modules/steamworks/TECH.md`.
-
-## 11. End-of-session checklist
-
-Before you stop:
+## 12. End-of-session checklist
 
 - [ ] `CHANGELOG.md` has today's work
 - [ ] `STATUS.md` "Now / Next / Left" is accurate
+- [ ] Version bumped in `package.json` for any public API / behaviour change
 - [ ] New decisions are in `DECISIONS.md`
-- [ ] You did not leave the old template merged in
-- [ ] You did not claim something worked unless you verified it (compile, play mode, or Steam test)
+- [ ] No game code leaked into `Packages/`
+- [ ] You did not claim something worked unless you verified it
