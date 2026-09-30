@@ -1,0 +1,78 @@
+name: publish-imasu-packages
+
+# Tags and releases Imasu Steamworks monorepo packages.
+# Push a tag named release/<package>@<version> (e.g. release/com.imasu.steamworks@0.1.0).
+# The workflow validates package.json:version, creates the OpenUPM-style scoped tag
+# (<package>@<version>, which consumers pin in git URLs), builds a .tgz, and drafts a Release.
+#
+# NOTE: GitHub occasionally drops tag-push workflow runs (both 0.1.0 and 0.1.1 were
+# silently dropped on the first push; delete + re-push the release/* tag fixes it).
+# If a run doesn't appear within ~a minute, use the manual "Run workflow" fallback below
+# with the same package + version — it runs the identical job.
+
+on:
+  push:
+    tags:
+      - "release/**"
+  workflow_dispatch:
+    inputs:
+      pkg:
+        description: "Package to publish (e.g. com.imasu.steamworks)"
+        required: true
+        type: string
+      ver:
+        description: "Version to publish (e.g. 0.1.1)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect package to publish
+        id: detect
+        run: |
+          # Tag-triggered: the pushed tag names a package (release/com.imasu.steamworks@0.2.0).
+          # Manual fallback: use the dispatch inputs directly.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            PKG_NAME="${{ inputs.pkg }}"
+            PKG_VER="${{ inputs.ver }}"
+          else
+            TAG="${GITHUB_REF#refs/tags/release/}"
+            PKG_NAME="${TAG%@*}"
+            PKG_VER="${TAG##*@}"
+          fi
+          echo "pkg=$PKG_NAME" >> "$GITHUB_OUTPUT"
+          echo "ver=$PKG_VER" >> "$GITHUB_OUTPUT"
+          echo "pkg=$PKG_NAME@$PKG_VER"
+
+      - name: Validate package.json version
+        run: |
+          VERSION="$(node -p "require('./Packages/${{ steps.detect.outputs.pkg }}/package.json').version")"
+          if [ "$VERSION" != "${{ steps.detect.outputs.ver }}" ]; then
+            echo "package.json version ($VERSION) does not match tag (${{ steps.detect.outputs.ver }})" >&2
+            exit 1
+          fi
+
+      - name: Create scoped tag + tarball
+        run: |
+          PKG="${{ steps.detect.outputs.pkg }}"
+          VER="${{ steps.detect.outputs.ver }}"
+          # Scoped tag pins the manifest for consumer installs (OpenUPM convention).
+          git tag "$PKG@$VER"
+          # npm pack produces a .tgz UPM can install too.
+          (cd "Packages/$PKG" && npm pack --pack-destination "$RUNNER_TEMP")
+
+      - name: Draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "${{ steps.detect.outputs.pkg }}@${{ steps.detect.outputs.ver }}"
+          files: "${{ runner.temp }}/*.tgz"
+          generate_release_notes: true

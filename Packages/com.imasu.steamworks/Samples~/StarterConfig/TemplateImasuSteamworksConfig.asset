@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47964394d6a34de41a90861d8f79a022, type: 3}
+  m_Name: TemplateImasuSteamworksConfig
+  m_EditorClassIdentifier: 
+  addonEnabled: 1
+  mainMenuScene: MainMenu
+  lobbyScene: WaitingRoom
+  gameModes:
+  - displayName: Default
+    maps:
+    - displayName: My Map
+      sceneName: Game
+  maxPlayers: 8
+  minPlayers: 1
+  lobbyName: Imasu Game
+  security: 2
+  lobbyCodeLength: 7
+  steamAppId: 480
+  requireSteam: 1
+  voipEnabled: 1
+  useDistanceAttenuation: 0
+  voipMinDistance: 1
+  voipMaxDistance: 30
+  voipUserVolumeDefault: 1
+  allowNonSteamServers: 1
+  maps: []
+  p2pTimeoutSeconds: 25
+  allowSteamRelay: 1
+  useNextGenSteamNetworking: 1
+  kcpPort: 7777
+  walkSpeed: 5
+  sprintMultiplier: 1.6
+  jumpSpeed: 7
+  gravity: 20
+  mouseSensitivity: 2.5

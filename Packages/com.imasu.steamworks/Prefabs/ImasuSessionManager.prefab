@@ -1,0 +1,247 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1303143933074440685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6026242529879490315}
+  - component: {fileID: 3778323564123502282}
+  - component: {fileID: 140379135634289670}
+  - component: {fileID: 5697322063340285173}
+  - component: {fileID: 635737038334065135}
+  - component: {fileID: 1636363698600873821}
+  - component: {fileID: 1354002472327549156}
+  - component: {fileID: 2057158177852910102}
+  - component: {fileID: 4162233121678431406}
+  m_Layer: 0
+  m_Name: ImasuSessionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6026242529879490315
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3778323564123502282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb535bc05a9584449c85428d1020a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks::Imasu.Steamworks.ImasuNetworkManager
+  dontDestroyOnLoad: 1
+  runInBackground: 1
+  headlessStartMode: 0
+  editorAutoStart: 0
+  sendRate: 60
+  unreliableBaselineRate: 1
+  unreliableRedundancy: 0
+  transport: {fileID: 0}
+  networkAddress: localhost
+  maxConnections: 100
+  disconnectInactiveConnections: 0
+  disconnectInactiveTimeout: 60
+  exceptionsDisconnect: 1
+  authenticator: {fileID: 0}
+  offlineScene: MainMenu
+  onlineScene: WaitingRoom
+  offlineSceneLoadDelay: 0
+  playerPrefab: {fileID: 5876182327091496181, guid: e3951d42795a9f94abbe827d98a8a989, type: 3}
+  autoCreatePlayer: 1
+  playerSpawnMethod: 0
+  spawnPrefabs: []
+  snapshotSettings:
+    bufferTimeMultiplier: 2
+    bufferLimit: 32
+    catchupNegativeThreshold: -1
+    catchupPositiveThreshold: 1
+    catchupSpeed: 0.019999999552965164
+    slowdownSpeed: 0.03999999910593033
+    driftEmaDuration: 1
+    dynamicAdjustment: 1
+    dynamicAdjustmentTolerance: 1
+    deliveryTimeEmaDuration: 2
+  evaluationMethod: 0
+  evaluationInterval: 3
+  timeInterpolationGui: 0
+  matchScene: Game
+  maps: []
+  gameModes:
+  - displayName: Hidden
+    maps:
+    - displayName: Courtyard
+      sceneName: Game
+    - displayName: Warehouse
+      sceneName: Warehouse
+    - displayName: HDRP
+      sceneName: HDRP
+  localAddress: localhost
+--- !u!114 &140379135634289670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b6e4cc09dc3c24081f759833a5ce02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks.FizzyFacepunch::Mirror.FizzySteam.FizzyFacepunch
+  Channels: 0200000001000000
+  Timeout: 25
+  SteamAppID: 480
+  AllowSteamRelay: 1
+  UseNextGenSteamNetworking: 1
+  InitFacepunch: 0
+  SteamUserID: 0
+--- !u!114 &5697322063340285173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0fecffa3f624585964b0d0eb21b18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Mirror.Transports::kcp2k.KcpTransport
+  port: 7777
+  DualMode: 1
+  NoDelay: 1
+  Interval: 10
+  Timeout: 10000
+  RecvBufferSize: 7361536
+  SendBufferSize: 7361536
+  FastResend: 2
+  ReceiveWindowSize: 4096
+  SendWindowSize: 4096
+  MaxRetransmit: 40
+  MaximizeSocketBuffers: 1
+  ReliableMaxMessageSize: 297433
+  UnreliableMaxMessageSize: 1194
+  debugLog: 0
+  statisticsGUI: 0
+  statisticsLog: 0
+--- !u!114 &635737038334065135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ad5dfc1cea0f84c895695ad5bad59c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks::Imasu.Steamworks.SteamManager
+  appId: 480
+  requireSteam: 1
+--- !u!114 &1636363698600873821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd3101ba7500dc44bbf38dc0053defc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks::Imasu.Steamworks.ImasuSteamworksMaster
+  config: {fileID: 11400000, guid: dac296c5012ee3a4486cdee0cf646baa, type: 2}
+--- !u!114 &1354002472327549156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23c69fbc8c23f7e42bde3d4aa963e2ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks::Imasu.Steamworks.SpawnManager
+  teamConfig: {fileID: 11400000, guid: e969bdd532a7ee54887af5a660f2c18a, type: 2}
+--- !u!114 &2057158177852910102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f88167323da7ec4eaef417a7a33fdfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks::Imasu.Steamworks.SteamLobbyManager
+  networkManager: {fileID: 3778323564123502282}
+  onLobbyCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onLobbyJoined:
+    m_PersistentCalls:
+      m_Calls: []
+  onLobbyLeft:
+    m_PersistentCalls:
+      m_Calls: []
+  onLobbyMemberCountChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  onJoinFailed:
+    m_PersistentCalls:
+      m_Calls: []
+  inLobby: 0
+  settings:
+    lobbyName: 
+    maxPlayers: 0
+    sceneName: 
+    gamemode: 
+    voiceRange: 0
+    modeIndex: 0
+    mapIndex: 0
+    isPublic: 0
+    security: 0
+    code: 
+--- !u!114 &4162233121678431406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303143933074440685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618795eba72fec346b7eda19cb343f6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Imasu.Steamworks::Imasu.Steamworks.ImasuSessionUI
+  lobbyManager: {fileID: 2057158177852910102}
+  networkManager: {fileID: 3778323564123502282}
+  steamManager: {fileID: 635737038334065135}
+  availableScenes:
+  - Game
+  - Warehouse
+  - HDRP

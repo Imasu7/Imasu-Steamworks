@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Control Center — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html" class="active">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>2. The Control Center — every setting</h1>
+      <p>
+        Open <code>Imasu → Steamworks Control Center</code>. This is the <strong>single window</strong> for
+        everything: it edits the shared <code>ImasuSteamworksConfig</code> asset, and the
+        <strong>Apply Active Config to Session Managers</strong> button pushes those values into the live
+        components (SteamManager, FizzyFacepunch, KcpTransport, ImasuNetworkManager). No hunting through six scripts.
+      </p>
+
+      <h2>2.0 One global config, not per-map</h2>
+      <p>
+        There is <strong>one <code>ImasuSteamworksConfig</code> asset per project</strong>. The
+        <strong>Active Config</strong> field at the very top of the window shows which asset is in use; picking a
+        different asset switches the whole project to it — the choice is saved and <strong>auto-applied</strong> to
+        every <code>ImasuSessionManager</code>/<code>ImasuSteamworksMaster</code> in the open scenes. Click
+        <strong>Create New Config</strong> for a fresh empty asset, or <strong>Duplicate Template</strong> to copy the
+        package's StarterConfig sample. Maps are not configs — they are <em>scene names</em> listed inside
+        <code>gameModes[] → maps[]</code>, each optionally overriding the player cap. The
+        <code>ImasuSteamworksMaster.config</code> field you see in the Inspector is only an <em>instance mirror</em> of
+        that one asset — don't edit it per scene. At runtime only the first Session Manager survives
+        (<code>DontDestroyOnLoad</code> singleton), so the config is global across all scenes.
+      </p>
+
+      <div class="screenshot-placeholder">
+        <!-- SCREENSHOT: The Control Center header showing the Active Config picker + Create/Duplicate buttons -->
+        Screenshot placeholder — Active Config picker at the top of the window
+      </div>
+
+      <h2>2.1 Addon kill-switch</h2>
+      <p>
+        The big <strong>Imasu Steamworks enabled</strong> toggle at the top of the window is the
+        one-click <em>kill-switch</em>. <strong>OFF</strong> suppresses the whole addon: no hard errors,
+        no Steam init, host/join/start are blocked with a soft note, and the game runs as single-player.
+        Untick the <code>ImasuSteamworksMaster</code> component in the Inspector for a per-scene override.
+        You can also <em>never</em> run without a config: if the master has no config wired, sessions are
+        hard-blocked with a red banner pointing you back here.
+      </p>
+
+      <h2>2.2 The tabs (what lives where)</h2>
+      <table>
+        <tr><th>Tab</th><th>What you edit there</th></tr>
+        <tr><td><strong>Project Scenes &amp; Lobby</strong></td><td><code>mainMenuScene</code> / <code>lobbyScene</code> (Mirror offline/online scenes), the Session defaults (<code>maxPlayers</code>, <code>minPlayers</code>, <code>lobbyName</code>, <code>security</code>, <code>lobbyCodeLength</code>), a <strong>Steam (advanced)</strong> foldout (<code>steamAppId</code>, <code>requireSteam</code>), plus the <strong>Sync Build Settings</strong> button.</td></tr>
+        <tr><td><strong>Gamemodes &amp; Maps</strong></td><td><strong>The map catalog — add / rename / remove gamemodes and their maps.</strong> A map is a display name + a scene (typed or picked from the scene list). Each gamemode has optional overrides (Session / Voice / Player Mover / Transport) ticked per-field, with a live <em>Effective</em> summary (map → gamemode → global).</td></tr>
+        <tr><td><strong>Spawns &amp; Teams</strong></td><td>Spawns detected in the open scene with a per-spawn <em>team</em> popup, plus the <strong>team config edited inline</strong> (min separation, team count presets 1/2/4, per-team name/color/spawn ID). No need to open the <code>ImasuTeamConfig</code> asset.</td></tr>
+        <tr><td><strong>Modules</strong></td><td>Optional addons (Voice / LAN / Dedicated / Character). Installed addons can be <strong>removed or updated</strong>; uninstalled ones have an <strong>Install from GitHub</strong> button (git URL + scoped tag — no clipboard paste). Embedded packages show as built-in. Installed addons draw their settings inline here.</td></tr>
+        <tr><td><strong>Detailed Config</strong></td><td>Every raw field of the config asset — the advanced fallback. Changes commit on Enter / focus-lost, not per keystroke.</td></tr>
+      </table>
+      <p>
+        Because Host Setup and Pause → Change Map read the <strong>same</strong> catalog, a map added in the
+        Gamemodes tab appears everywhere. When you add a map, the Control Center also auto-syncs it into the
+        classic Build Settings <em>and</em> the active Unity 6 Build Profile, so it works in both Play Mode
+        and player builds — no manual profile digging. The runtime Host dropdown also refreshes automatically
+        after a config change (it watches a catalog version, so you don't need to reload the scene).
+      </p>
+
+      <h2>2.3 Session</h2>
+      <table>
+        <tr><th>Field</th><th>Default</th><th>Range</th><th>What it does / where it flows</th></tr>
+        <tr><td><code>maxPlayers</code></td><td>8</td><td>2–32</td><td>Soft cap on a server. Also clamps <code>NetworkManager.maxConnections</code> and the Steam lobby capacity.</td></tr>
+        <tr><td><code>minPlayers</code></td><td>1</td><td>1–maxPlayers</td><td>Minimum players before the host can start the match. <strong>1 = host can start solo.</strong> Enforced in <code>StartMatch</code> (lobby member count / connected players); the waiting room shows a "Need N players" message when blocked.</td></tr>
+        <tr><td><code>lobbyName</code></td><td>Imasu Game</td><td>—</td><td>Default server name pre-filled in Game Setup.</td></tr>
+        <tr><td><code>security</code></td><td>Open</td><td>Invite only / Friends / Open</td><td>Default join security for hosted lobbies (mapped to <code>SetPrivate/FriendsOnly/Public</code>).</td></tr>
+        <tr><td><code>lobbyCodeLength</code></td><td>7</td><td>4–12</td><td>Length of generated short join codes.</td></tr>
+      </table>
+
+      <h2>2.4 Steam</h2>
+      <table>
+        <tr><th>Field</th><th>Default</th><th>Range</th><th>What it does / where it flows</th></tr>
+        <tr><td><code>steamAppId</code></td><td>480</td><td>uint</td><td>Steamworks App ID. 480 = Spacewar (dev). Set your real App ID before public builds. Pushed to <code>SteamManager.appId</code> and <code>FizzyFacepunch.SteamAppID</code>.</td></tr>
+        <tr><td><code>requireSteam</code></td><td>true</td><td>bool</td><td>Require the Steam client running to initialize Steamworks.</td></tr>
+      </table>
+
+      <h2>2.5 Voice</h2>
+      <table>
+        <tr><th>Field</th><th>Default</th><th>Range</th><th>What it does / where it flows</th></tr>
+        <tr><td><code>voipEnabled</code></td><td>true</td><td>bool</td><td>Master kill-switch for the whole voice system (capture + playback).</td></tr>
+        <tr><td><code>useDistanceAttenuation</code></td><td>false</td><td>bool (checkbox)</td><td><strong>OFF = Fixed:</strong> no distance dropoff — everyone heard at full volume. <strong>ON = Range:</strong> logarithmic rolloff between min and max distance.</td></tr>
+        <tr><td><code>voipMinDistance</code></td><td>1 m</td><td>0.1–500</td><td>Range mode: distance at which volume starts rolling off.</td></tr>
+        <tr><td><code>voipMaxDistance</code></td><td>30 m</td><td>1–500</td><td>Range mode: inaudible beyond this. Also advertised as the lobby's voice range and the Game Setup default.</td></tr>
+        <tr><td><code>voipUserVolumeDefault</code></td><td>1.0×</td><td>0–2</td><td>Default per-user VOIP gain (players tune "how loud others are" in Settings → Audio; compensates for loud/soft mics).</td></tr>
+      </table>
+
+      <h2>2.6 Debug</h2>
+      <table>
+        <tr><th>Field</th><th>Default</th><th>Range</th><th>What it does / where it flows</th></tr>
+        <tr><td><code>allowNonSteamServers</code></td><td>true</td><td>bool</td><td><strong>Debug listing flag.</strong> When OFF: the Game Setup "Use Steam networking" checkbox, the Join screen's LAN browser section, and joining by IP are all hidden/blocked.</td></tr>
+      </table>
+
+      <h2>2.7 Transport (dependencies)</h2>
+      <table>
+        <tr><th>Field</th><th>Default</th><th>Range</th><th>What it does / where it flows</th></tr>
+        <tr><td><code>p2pTimeoutSeconds</code></td><td>25</td><td>5–120</td><td>Steam P2P connection timeout. Pushed to <code>FizzyFacepunch.Timeout</code>.</td></tr>
+        <tr><td><code>allowSteamRelay</code></td><td>true</td><td>bool</td><td>Allow fallback to Steam Relay when NAT blocks direct P2P.</td></tr>
+        <tr><td><code>useNextGenSteamNetworking</code></td><td>true</td><td>bool</td><td>Use SteamSockets instead of the deprecated legacy API.</td></tr>
+        <tr><td><code>kcpPort</code></td><td>7777</td><td>1024–65535</td><td>Local KCP listen port for non-Steam LAN sessions.</td></tr>
+      </table>
+
+      <h2>2.8 Player Mover</h2>
+      <table>
+        <tr><th>Field</th><th>Default</th><th>Range</th><th>What it does / where it flows</th></tr>
+        <tr><td><code>walkSpeed</code></td><td>5</td><td>0.1–30</td><td>FPS walk speed (seeds <code>SimpleFirstPersonController</code>).</td></tr>
+        <tr><td><code>sprintMultiplier</code></td><td>1.6</td><td>1–5</td><td>Sprint multiplier.</td></tr>
+        <tr><td><code>jumpSpeed</code></td><td>7</td><td>0–30</td><td>Jump velocity.</td></tr>
+        <tr><td><code>gravity</code></td><td>20</td><td>0.1–30</td><td>Custom gravity.</td></tr>
+        <tr><td><code>mouseSensitivity</code></td><td>2.5</td><td>0.1–10</td><td>Base mouse sensitivity (players further multiply this in Settings → Controls).</td></tr>
+      </table>
+
+      <h2>2.9 Apply &amp; validation</h2>
+      <ul>
+        <li><strong>Apply Active Config to Session Managers</strong> — pushes the Active Config into every
+          <code>ImasuSessionManager</code>/<code>ImasuSteamworksMaster</code> in the open scenes and marks them dirty.
+          This also happens <em>automatically</em> whenever you change the Active Config <em>or</em> edit a field in a
+          purpose tab (throttled so it doesn't hammer the scene mid-slider-drag).</li>
+        <li><strong>Add Session Manager to Scene</strong> — instantiates the <code>ImasuSessionManager</code> prefab into the open scene.</li>
+        <li><strong>Validation</strong> — the window flags any <code>mainMenuScene</code> / <code>lobbyScene</code> /
+          map scene missing from Build Settings, with a <strong>Sync Build Settings</strong> button to add them
+          (classic list <em>and</em> active Build Profile).</li>
+        <li><strong>Validate Maps</strong> — opens each map scene (additively) and checks it contains an
+          <code>ImasuSessionManager</code> + at least one spawn. Failing maps are listed in the
+          Project Scenes &amp; Lobby and Gamemodes tabs. A valid map scene is a runnable multiplayer map.</li>
+        <li><strong>Open Offline Docs</strong> — opens this site (<code>Docs/index.html</code>).</li>
+      </ul>
+      <div class="note">
+        <strong>Host map list stale?</strong> If you added a map to the config but the Host Setup dropdown still
+        shows the old list, run <code>Imasu → Steamworks → Sync Session Prefab to Config</code> (or the
+        <strong>Apply Active Config to Session Managers</strong> button with the Session Manager scene open, then save
+        the scene). This rebuilds the baked catalog inside the <code>ImasuSessionManager</code> prefab.
+      </div>
+
+      <div class="footer">Imasu Steamworks · Control Center reference · 2026-08-30</div>
+    </main>
+  </div>
+</body>
+</html>

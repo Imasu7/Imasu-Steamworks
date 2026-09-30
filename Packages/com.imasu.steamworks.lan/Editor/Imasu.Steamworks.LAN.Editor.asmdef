@@ -1,0 +1,24 @@
+{
+  "name": "Imasu.Steamworks.LAN.Editor",
+  "rootNamespace": "Imasu.Steamworks.Editor",
+  "references": [
+    "Imasu.Steamworks.Editor",
+    "Imasu.Steamworks",
+    "Imasu.Steamworks.LAN",
+    "Mirror",
+    "Mirror.Components"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "IMASU_LAN"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Imasu — Documentation (all modules)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Modules</span></div>
+      <ul>
+        <li><a href="index.html" class="active">Overview</a></li>
+        <li><a href="steamworks/index.html">Steamworks</a></li>
+        <li><a href="character/index.html">Character Controller</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>Imasu — Unity modules</h1>
+      <p class="lead">
+        Reusable, game-agnostic Unity packages developed together. Each module has its own
+        documentation area and can be installed on its own.
+      </p>
+
+      <div class="card">
+        <h2>Imasu Steamworks <span style="font-weight:normal">(<code>com.imasu.steamworks</code>)</span></h2>
+        <p>
+          Steam multiplayer for Unity 6: lobbies, Mirror transport, distance voice, LAN fallback,
+          and the Control Center. Add the <code>ImasuSession</code> object to any scene to make it multiplayer.
+        </p>
+        <p><a href="steamworks/index.html">Steamworks documentation →</a></p>
+        <ul>
+          <li>Addons: <em>Voice</em> (<code>com.imasu.steamworks.voice</code>), <em>LAN</em> (<code>com.imasu.steamworks.lan</code>), <em>Dedicated Servers</em> (planned).</li>
+          <li>Installing/removing addons from GitHub from inside the Control Center is planned (Addon Manager).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Imasu Character Controller <span style="font-weight:normal">(<code>com.imasu.character</code>)</span></h2>
+        <p>
+          An advanced first-person character controller (Opsive-level ambition): movement, inventory,
+          weapons &amp; hands, health/stamina, footstep controller, a stress state system, DAZ character
+          customization, and multiplayer support as an optional addon.
+        </p>
+        <p><a href="character/index.html">Character Controller docs →</a></p>
+        <p><em>Planning stage — not yet installable.</em> The feature list is a roadmap, not a final spec.</p>
+      </div>
+
+      <div class="card">
+        <h2>How modules relate</h2>
+        <pre>com.imasu.character.multiplayer → com.imasu.character + com.imasu.steamworks
+com.imasu.steamworks.voice/lan/dedicated → com.imasu.steamworks
+com.imasu.steamworks → com.mirrornetworking.mirror (vendored)</pre>
+        <p>Cross-module communication is always through public interfaces
+        (<code>IVoiceMember</code>, <code>ILanDiscovery</code>, <code>ICharacterNetworkAdapter</code>, <code>IImasuModule</code>).
+        <code>com.imasu.character</code> depends on nothing Imasu — it works standalone for single-player games.</p>
+      </div>
+
+      <div class="footer">
+        Imasu · module documentation · last updated 2026-08-30
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "name": "com.imasu.steamworks",
+  "version": "0.1.3",
+  "displayName": "Imasu Steamworks",
+  "description": "Reusable Steam multiplayer stack: Steam lobby session, Mirror transport via FizzyFacepunch, distance-based voice, LAN/KCP fallback, and a one-stop configuration window (Imasu Steamworks Control Center). Game-agnostic - add to any Unity 6 project.",
+  "unity": "6000.0",
+  "license": "MIT",
+  "licensesUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/blob/main/Packages/com.imasu.steamworks/LICENSE.md",
+  "documentationUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/tree/main/Docs/steamworks",
+  "changelogUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP/releases",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Imasu7/Hidden-Dev-HDRP.git"
+  },
+  "author": {
+    "name": "Imasu"
+  },
+  "keywords": [
+    "steam",
+    "steamworks",
+    "multiplayer",
+    "mirror",
+    "lobby",
+    "voice"
+  ],
+  "samples": [
+    {
+      "displayName": "Starter UI Templates",
+      "description": "Copy-paste MonoBehaviours for common Steam UI: avatar badges, lobby code displays, player lists, invite buttons, voice indicators and a host setup form. Import via Package Manager, then drag onto your UI.",
+      "path": "Samples~/StarterUI"
+    }
+  ],
+  "dependencies": {
+    "com.unity.inputsystem": "1.20.0",
+    "com.unity.ugui": "2.5.0"
+  }
+}

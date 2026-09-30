@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html" class="active">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>7. Troubleshooting</h1>
+
+      <h2>Steam isn't initialized</h2>
+      <p class="note err">Symptoms: menu shows "Steam: not initialized", no lobbies, no invites, Push-to-Talk hidden.</p>
+      <ol>
+        <li>Is Steam running and logged in? <strong>Steam must be open.</strong></li>
+        <li>Is <code>steam_appid.txt</code> at the project root with <code>480</code>?</li>
+        <li>Does the App ID match <code>ImasuSteamworksConfig.steamAppId</code> (Control Center)?</li>
+      </ol>
+
+      <h2>Avatars are blank or upside-down</h2>
+      <p class="note">Friend avatars download lazily. The invite list re-inits rows so they fill on their own (no typing needed). If blank after ~15 s, check the log for <code>[AvatarCache] No avatar for &lt;id&gt;</code> — that player may genuinely have no avatar.</p>
+      <p>Upside-down avatars in the <em>waiting room / scoreboard</em> (not the invite list) mean the vertical flip is only applied to invite rows — move it to <code>AvatarCache</code> texture creation.</p>
+
+      <h2>Start Match does nothing</h2>
+      <ul>
+        <li>Not enough players: check <code>minPlayers</code> (Control Center) — the waiting room shows "Need N players".</li>
+        <li>Non-Steam host: the map must be selected in Game Setup (it's copied to <code>matchScene</code> at create time).</li>
+        <li>Log shows <code>StartMatch needs matchScene set</code> → configure <code>maps[]</code> or <code>matchScene</code>.</li>
+      </ul>
+
+      <h2>Can't connect / LAN server not listed</h2>
+      <ul>
+        <li>Windows doesn't loop UDP broadcasts back — LAN discovery needs <strong>two machines</strong>.</li>
+        <li>Firewall blocking UDP 7777? Allow the exe.</li>
+        <li>"Allow non-Steam servers" is off (Control Center → Debug) → LAN paths are hidden. This is expected.</li>
+      </ul>
+
+      <h2>Invites "Retry" / amber</h2>
+      <p class="note">The lobby may be invite-only, or Steam rate-limited. The invite result is logged with the friend's name + SteamID in <code>Player.log</code>.</p>
+
+      <h2>Harmless log noise</h2>
+      <table>
+        <tr><th>Message</th><th>Why it's fine</th></tr>
+        <tr><td><code>NRE in FizzyFacepunch.NextServer.Shutdown</code></td><td>Steam teardown ordering at app exit.</td></tr>
+        <tr><td><code>Steam already initialized by another component</code></td><td>Transport and SteamManager both init — treated as success.</td></tr>
+        <tr><td><code>Voice requires Steam</code></td><td>Non-Steam session — capture uses Steam APIs by design.</td></tr>
+      </table>
+
+      <h2>Console not showing anything new</h2>
+      <p>Logs moved when the company name became <code>Imasu</code>:</p>
+      <pre><code>%USERPROFILE%\AppData\LocalLow\Imasu\Hidden Dev HDRP\Player.log</code></pre>
+
+      <div class="footer">Imasu Steamworks · Troubleshooting · 2026-08-24</div>
+    </main>
+  </div>
+</body>
+</html>

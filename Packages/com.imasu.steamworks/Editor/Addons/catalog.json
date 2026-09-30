@@ -1,0 +1,53 @@
+{
+  "dependencies": [
+    {
+      "id": "com.mirrornetworking.mirror",
+      "displayName": "Mirror (MIT)",
+      "description": "High-level Unity networking library. Mirror's own repo has no UPM package.json (unitypackage/Asset Store only), so this free git-path shim hosts the vendored MIT v96.11.0 source. Not sold.",
+      "installUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.mirrornetworking.mirror#com.mirrornetworking.mirror@96.11.0"
+    },
+    {
+      "id": "com.imasu.facepunch",
+      "displayName": "Facepunch + FizzyFacepunch (MIT)",
+      "description": "Steam API wrapper DLLs + the Mirror Steam transport. Free repackage; not sold.",
+      "installUrl": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.facepunch#com.imasu.facepunch@0.1.1"
+    }
+  ],
+  "modules": [
+    {
+      "id": "com.imasu.steamworks",
+      "displayName": "Core",
+      "description": "Config, Steam lobbies, Session Manager, Control Center. Always required.",
+      "installPath": "Packages/com.imasu.steamworks",
+      "tag": "com.imasu.steamworks@0.1.3"
+    },
+    {
+      "id": "com.imasu.steamworks.voice",
+      "displayName": "Voice",
+      "description": "Distance VOIP (Steam voice codec). Optional addon — install only if you want voice.",
+      "installPath": "Packages/com.imasu.steamworks.voice",
+      "tag": "com.imasu.steamworks.voice@0.1.3"
+    },
+    {
+      "id": "com.imasu.steamworks.lan",
+      "displayName": "LAN (no Steam)",
+      "description": "KCP/Telepathy LAN play without Steam. A separate addon from Dedicated.",
+      "installPath": "Packages/com.imasu.steamworks.lan",
+      "tag": "com.imasu.steamworks.lan@0.1.3"
+    },
+    {
+      "id": "com.imasu.steamworks.dedicated",
+      "displayName": "Dedicated Servers",
+      "description": "Headless dedicated-server hosting. Separate from LAN.",
+      "installPath": "Packages/com.imasu.steamworks.dedicated",
+      "tag": "com.imasu.steamworks.dedicated@0.1.3"
+    },
+    {
+      "id": "com.imasu.character",
+      "displayName": "Character Controller",
+      "description": "Advanced first-person character controller (separate module, planning).",
+      "installPath": "Packages/com.imasu.character",
+      "tag": ""
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Imasu.Steamworks.Voice.Editor",
+  "rootNamespace": "Imasu.Steamworks.Editor",
+  "references": [
+    "Imasu.Steamworks.Editor",
+    "Imasu.Steamworks",
+    "Imasu.Steamworks.Voice",
+    "Mirror"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "VOICE"
+  ],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

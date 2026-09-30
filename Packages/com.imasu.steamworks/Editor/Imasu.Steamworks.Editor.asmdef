@@ -1,0 +1,21 @@
+{
+  "name": "Imasu.Steamworks.Editor",
+  "rootNamespace": "Imasu.Steamworks.Editor",
+  "references": [
+    "Imasu.Steamworks",
+    "Imasu.Steamworks.FizzyFacepunch",
+    "Mirror.Transports",
+    "Mirror"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

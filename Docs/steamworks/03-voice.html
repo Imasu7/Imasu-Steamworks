@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Voice — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html" class="active">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>3. Voice</h1>
+      <p>
+        Voice capture and codec are <strong>Steam's</strong> (<code>SteamUser</code>). The <em>transport</em> is
+        Mirror — compressed voice frames go over the unreliable channel, so it works over both Steam P2P and
+        LAN/KCP. Steam must be running to capture or decode; on non-Steam sessions the Push-to-Talk button is
+        hidden and the waiting room shows "Voice requires Steam."
+      </p>
+
+      <h2>3.1 Fixed vs. Range</h2>
+      <table>
+        <tr><th>Mode</th><th>Control Center setting</th><th>Behaviour</th></tr>
+        <tr><td><strong>Fixed</strong></td><td><code>useDistanceAttenuation</code> = OFF</td><td>No distance dropoff. Every speaker is heard at full volume regardless of distance. Players only adjust the global VOIP volume. Best for small teams / LAN.</td></tr>
+        <tr><td><strong>Range</strong></td><td><code>useDistanceAttenuation</code> = ON</td><td>Logarithmic rolloff between <code>voipMinDistance</code> and <code>voipMaxDistance</code> (a 3D <code>AudioSource</code>). Walk away → quieter → silent.</td></tr>
+      </table>
+
+      <h2>3.2 Who controls distance? The host.</h2>
+      <p>
+        Players do <strong>not</strong> change distance. The host sets it in the Control Center
+        (<code>voipMaxDistance</code>), which is also advertised as the lobby's voice range. The host can still
+        override per-session on the Game Setup screen.
+      </p>
+
+      <h2>3.3 Per-user VOIP volume</h2>
+      <p>
+        Because mics vary in loudness, each player tunes <strong>how loud others are</strong>:
+        <code>Settings → Audio → VOIP Volume</code> (0–2×, default 1.0). The gain is applied to each remote
+        player's <code>AudioSource.volume</code>. It does <em>not</em> affect distance.
+      </p>
+
+      <h2>3.4 Voice in the UI</h2>
+      <ul>
+        <li><strong>Push-to-Talk</strong> (waiting room) — hold/toggle; hidden when Steam is off.</li>
+        <li><strong>Waiting room rows</strong> — show mic-live / talking state and a sent/received KB line.</li>
+        <li><strong>Scoreboard (hold Tab)</strong> — ring avatars: green = talking, red = mic confirmed failed, grey = unknown, plus ping.</li>
+        <li><strong>Voice HUD</strong> — in-match indicator.</li>
+      </ul>
+
+      <div class="screenshot-placeholder">
+        <!-- SCREENSHOT: Scoreboard showing ring avatars + ping -->
+        Screenshot placeholder — scoreboard voice rings
+      </div>
+
+      <div class="note">Headless/VM runs capture 0 mic frames — voice relay needs two real users.</div>
+      <div class="footer">Imasu Steamworks · Voice · 2026-08-24</div>
+    </main>
+  </div>
+</body>
+</html>

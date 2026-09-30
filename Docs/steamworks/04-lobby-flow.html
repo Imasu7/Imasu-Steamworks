@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lobby Flow — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html" class="active">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>4. Lobby Flow</h1>
+      <pre>MainMenu (offline) → Game Setup → WaitingRoom (online) → Game (match)</pre>
+
+      <h2>4.1 Host</h2>
+      <ol>
+        <li><strong>Host Game</strong> → Game Setup: server name, max players, map, voice distance, security.</li>
+        <li><strong>Use Steam networking</strong> checkbox: ON = Steam lobby + Steam P2P transport; OFF = LAN/KCP host (no Steam). Hidden when <code>allowNonSteamServers</code> is off.</li>
+        <li><strong>Create Lobby &amp; Host</strong> → Waiting Room. Share the lobby code (click to copy).</li>
+        <li><strong>Start Match</strong> (host only) → everyone loads the chosen map. Blocked until <code>members ≥ minPlayers</code>.</li>
+      </ol>
+
+      <h2>4.2 Join</h2>
+      <ul>
+        <li><strong>Code</strong> — 7-char short code (raw lobby IDs also accepted).</li>
+        <li><strong>IP / hostname</strong> — LAN join (e.g. <code>192.168.1.20</code>, <code>localhost</code>). Blocked when non-Steam is disabled.</li>
+        <li><strong>Browse Servers</strong> — Steam public lobbies (filtered by a marker key so foreign Spacewar lobbies never show) merged with a <strong>LAN SERVERS</strong> section from UDP discovery.</li>
+        <li><strong>Invites</strong> — searchable friend list (hover a row to reveal the blue Invite button) and a native Steam overlay picker.</li>
+      </ul>
+      <p>
+        <strong>LAN tunables</strong> (Control Center → Modules → LAN when the addon is installed): the discovery
+        <em>port</em> (default 47777), <em>Active Discovery</em> (periodic probe vs. passive listen), and how long a
+        discovered server stays listed without a reply (<em>Max Stale</em>). Settings persist per-project
+        (PlayerPrefs) and apply the next time the browser opens or a host advertises. LAN servers only appear when
+        <code>allowNonSteamServers</code> is on.
+      </p>
+
+      <h2>4.3 minPlayers enforcement</h2>
+      <p>
+        With <code>minPlayers = 1</code> (default) the host can start solo. Set it higher and the host is blocked
+        with a clear "Need N players to start" message in the waiting room until enough players are connected.
+      </p>
+
+      <h2>4.4 Leaving</h2>
+      <ul>
+        <li><strong>Leave Lobby</strong> — full teardown in both Steam and non-Steam modes; everyone returns to the main menu.</li>
+        <li><strong>Pause → Quit to Menu</strong> — stops the session and loads the offline scene.</li>
+        <li><strong>Pause → Back to Lobby</strong> (host only) — pulls the whole party back to the waiting room.</li>
+      </ul>
+
+      <div class="screenshot-placeholder">
+        <!-- SCREENSHOT: Waiting room with member list + lobby code -->
+        Screenshot placeholder — waiting room
+      </div>
+
+      <div class="footer">Imasu Steamworks · Lobby Flow · 2026-08-24</div>
+    </main>
+  </div>
+</body>
+</html>

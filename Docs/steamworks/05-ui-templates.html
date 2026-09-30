@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI Templates — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html" class="active">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>5. UI Templates</h1>
+      <p>
+        Import <code>Samples~/StarterUI</code> via Package Manager (<strong>Window → Package Manager → Imasu
+        Steamworks → Samples → Import</strong>). Each script is a minimal MonoBehaviour that exposes public
+        inspector slots (<code>TMP_Text</code>, <code>RawImage</code>, <code>Button</code>). Drag your UI
+        elements onto them — no code required. Everything lives in <code>namespace Imasu.Steamworks.Templates</code>.
+      </p>
+
+      <h2>5.1 SteamUserBadge</h2>
+      <p>Shows a player's Steam avatar + name + online state.</p>
+      <ul>
+        <li>Slots: <code>RawImage avatar</code>, <code>TMP_Text nameText</code>, <code>ulong steamId</code>.</li>
+        <li>Pulls: <code>AvatarCache.Get(id)</code> + <code>AvatarCache.AvatarLateAssign</code> for lazy loading.</li>
+        <li>Use in: waiting room rows, scoreboard, friend lists.</li>
+      </ul>
+
+      <h2>5.2 LobbyCodeDisplay</h2>
+      <p>Shows the current lobby's short code and copies it to the clipboard on click.</p>
+      <ul>
+        <li>Slots: <code>TMP_Text codeText</code> (the clickable box), optional <code>TMP_Text statusText</code>.</li>
+        <li>Pulls: <code>SteamLobbyManager.currentLobby</code> / <code>LobbySettings.code</code>.</li>
+      </ul>
+
+      <h2>5.3 PlayerListUI</h2>
+      <p>Builds a list of lobby members from <code>SteamLobbyManager.members</code> (or networked
+      <code>VoicePlayer</code>s in non-Steam sessions).</p>
+      <ul>
+        <li>Slots: <code>RectTransform rowParent</code>, optional row prefab.</li>
+      </ul>
+
+      <h2>5.4 InviteButton</h2>
+      <p>Sends a lobby invite for a chosen friend; falls back to the native Steam overlay.</p>
+      <ul>
+        <li>Slots: <code>Button button</code>, <code>ulong friendSteamId</code>, optional <code>TMP_Text feedback</code>.</li>
+        <li>Pulls: <code>Lobby.InviteFriend(id)</code>.</li>
+      </ul>
+
+      <h2>5.5 VoiceIndicator</h2>
+      <p>Colors a UI ring by a player's voice state.</p>
+      <ul>
+        <li>Slots: <code>Image ring</code>.</li>
+        <li>Reads: <code>VoicePlayer.isSpeaking</code> (green), <code>micState</code> Failed (red), else grey.</li>
+      </ul>
+
+      <h2>5.6 HostSetupForm</h2>
+      <p>Binds a <code>ImasuSteamworksConfig</code> to a host-setup UI (max/min players, map, security, voip).</p>
+      <ul>
+        <li>Slots: inputs/dropdowns per field.</li>
+        <li>Reads/writes: <code>ImasuSteamworksMaster.Config</code>.</li>
+      </ul>
+
+      <div class="screenshot-placeholder">
+        <!-- SCREENSHOT: A template script inspector with its drag slots -->
+        Screenshot placeholder — template inspector slots
+      </div>
+
+      <div class="footer">Imasu Steamworks · UI Templates · 2026-08-24</div>
+    </main>
+  </div>
+</body>
+</html>

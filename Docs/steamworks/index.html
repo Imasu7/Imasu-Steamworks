@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Imasu Steamworks — Documentation</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html" class="active">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot"><a href="../index.html">All Imasu modules</a> · offline docs — no server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>Imasu Steamworks</h1>
+      <p class="lead">
+        A reusable <strong>Steam multiplayer stack</strong> for Unity 6: Steam lobbies,
+        Mirror transport via FizzyFacepunch, LAN/KCP fallback, distance-based voice,
+        and a single configuration window — the <em>Imasu Steamworks Control Center</em>.
+        Game-agnostic: add it to any project.
+      </p>
+
+      <div class="card">
+        <h2>What you get</h2>
+        <ul>
+          <li><strong>One config asset</strong> (<code>ImasuSteamworksConfig</code>) — every tunable in one place, edited from <code>Imasu → Steamworks Control Center</code>.</li>
+          <li><strong>Drag-and-drop session object</strong> (<code>ImasuSession</code>) — network manager, Steam, transport, lobby, and UI all on one GameObject.</li>
+          <li><strong>Steam lobbies</strong> with short join codes, invites, server browser, and LAN discovery.</li>
+          <li><strong>Voice</strong> — Steam capture/compression over Mirror, with Fixed (no dropoff) or Range (min/max) modes and a per-user VOIP volume.</li>
+          <li><strong>Runtime-built UI</strong> — main menu, game setup, waiting room, pause, scoreboard, settings.</li>
+          <li><strong>Copy-paste UI templates</strong> — grab Steam names, avatars, lobby codes, voice state with one script.</li>
+          <li><strong>Smoke-test player</strong> — a prebuilt <code>.exe</code> for non-Unity play-testers (GitHub Releases).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Quick start (3 lines)</h2>
+        <ol>
+          <li>Add the package to your project (see <a href="01-getting-started.html">Getting Started</a>).</li>
+          <li>Open <code>Imasu → Steamworks Control Center</code> and create the config asset.</li>
+          <li>Run the project — the <code>ImasuSession</code> object drives everything.</li>
+        </ol>
+        <p>Non-Unity testers: grab the latest <code>HiddenDevHDRP-Smoke.zip</code> from <strong>GitHub Releases</strong>, unzip, and run <code>HiddenDevHDRP.exe</code>.</p>
+      </div>
+
+      <div class="card">
+        <h2>Not a Unity dev?</h2>
+        <p>
+          You don't need Unity to <em>play-test</em>. The smoke build is a normal Windows
+          game. Host a game (Steam or LAN), share the lobby code, and play. For hosting a
+          LAN game without Steam, use the <strong>"Use Steam networking"</strong> checkbox on
+          the Game Setup screen (only visible when <em>Allow non-Steam servers</em> is enabled in
+          the Control Center).
+        </p>
+      </div>
+
+      <div class="footer">
+        Imasu Steamworks · offline documentation · last updated 2026-08-30
+      </div>
+    </main>
+  </div>
+</body>
+</html>

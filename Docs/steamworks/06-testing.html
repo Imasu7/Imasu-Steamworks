@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Testing &amp; Smokes — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html" class="active">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>6. Testing &amp; Smoke Players</h1>
+
+      <h2>6.1 The smoke-test build</h2>
+      <p>
+        A prebuilt Windows player ships via <strong>GitHub Releases</strong> (<code>HiddenDevHDRP-Smoke.zip</code>).
+        It's the easiest way to play-test without Unity or git. The unzipped folder
+        (<code>Builds/LocalTestSmoke/</code>) is kept locally for devs and is not committed; the zip is versioned
+        via Git LFS and refreshed automatically by a <code>pre-push</code> hook.
+      </p>
+      <pre><code>HiddenDevHDRP.exe                # normal play
+HiddenDevHDRP.exe --smoke=ui        # verify UI + local KCP host
+HiddenDevHDRP.exe --smoke=lan-flow  # verify Leave Lobby + Start Match
+HiddenDevHDRP.exe --smoke=steam-host# verify Steam lobby create + host</code></pre>
+
+      <h2>6.2 CLI smoke matrix</h2>
+      <table>
+        <tr><th>Flag</th><th>Verifies</th><th>Passes when</th></tr>
+        <tr><td><code>--smoke=ui</code></td><td>Three screens build + local KCP host spawns the dummy</td><td><code>SMOKE_UI_HOST_OK players=1</code></td></tr>
+        <tr><td><code>--smoke=lan-flow</code></td><td>LeaveLobby tears down a KCP session; StartMatch reaches the Game scene</td><td><code>SMOKE_LAN_STEP4</code> + <code>SMOKE_LAN_STEP7</code></td></tr>
+        <tr><td><code>--smoke=steam-host</code></td><td>Steam init → lobby created → host active</td><td><code>SMOKE_STEAM_HOST_OK</code></td></tr>
+        <tr><td><code>--smoke=host</code> / <code>client</code></td><td>KCP host/client pair (two machines or instances)</td><td><code>SMOKE_HOST_OK</code> / <code>SMOKE_CLIENT_OK</code></td></tr>
+        <tr><td><code>--smoke=voice</code></td><td>Voice codec path</td><td><code>SMOKE_VOICE_OK</code></td></tr>
+      </table>
+
+      <h2>6.3 Multi-machine LAN test</h2>
+      <ol>
+        <li>Host: Game Setup → uncheck "Use Steam networking" → Create Lobby &amp; Host.</li>
+        <li>Client: Join Game → type the host's IP (or use Browse → LAN SERVERS).</li>
+        <li>Start Match → both reach the map. (Windows doesn't loop UDP broadcasts back, so LAN discovery needs two real machines.)</li>
+      </ol>
+
+      <h2>6.4 Building the smoke player</h2>
+      <pre><code>Unity.exe -batchmode -quit -projectPath &lt;proj&gt; \
+  -executeMethod Hidden.LocalTest.Editor.LocalTestSceneBuilder.BuildSmokePlayer</code></pre>
+
+      <h2>6.5 Rebuilding the game scenes/prefabs</h2>
+      <pre><code>Unity.exe -batchmode -quit -projectPath &lt;proj&gt; \
+  -executeMethod Hidden.LocalTest.Editor.ProductionSceneBuilder.BuildAll</code></pre>
+      <p>Regenerates MainMenu / WaitingRoom / Game / Warehouse scenes, the <code>ImasuSession</code> and
+      <code>DummyPlayer</code> prefabs, and HDRP materials.</p>
+
+      <div class="footer">Imasu Steamworks · Testing &amp; Smokes · 2026-08-24</div>
+    </main>
+  </div>
+</body>
+</html>

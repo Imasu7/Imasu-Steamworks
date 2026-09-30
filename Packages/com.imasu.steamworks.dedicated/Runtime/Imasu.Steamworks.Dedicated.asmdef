@@ -1,0 +1,18 @@
+{
+  "name": "Imasu.Steamworks.Dedicated",
+  "rootNamespace": "Imasu.Steamworks.Dedicated",
+  "references": [
+    "Imasu.Steamworks",
+    "Mirror",
+    "Mirror.Transports"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

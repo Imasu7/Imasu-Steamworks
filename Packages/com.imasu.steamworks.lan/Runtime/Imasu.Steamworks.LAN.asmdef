@@ -1,0 +1,19 @@
+{
+  "name": "Imasu.Steamworks.LAN",
+  "rootNamespace": "Imasu.Steamworks",
+  "references": [
+    "Imasu.Steamworks",
+    "Mirror",
+    "Mirror.Components",
+    "Mirror.Transports"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

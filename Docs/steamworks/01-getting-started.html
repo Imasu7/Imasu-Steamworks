@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started — Imasu Steamworks</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="brand">Imasu <span>Steamworks</span></div>
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="01-getting-started.html" class="active">1. Getting Started</a></li>
+        <li><a href="02-master-window.html">2. Control Center (all settings)</a></li>
+        <li><a href="03-voice.html">3. Voice</a></li>
+        <li><a href="04-lobby-flow.html">4. Lobby Flow</a></li>
+        <li><a href="05-ui-templates.html">5. UI Templates</a></li>
+        <li><a href="06-testing.html">6. Testing &amp; Smokes</a></li>
+        <li><a href="07-troubleshooting.html">7. Troubleshooting</a></li>
+      </ul>
+      <div class="foot">Offline docs — double-click index.html. No server needed.</div>
+    </nav>
+    <main class="content">
+      <h1>1. Getting Started</h1>
+
+      <h2>1.1 Add the package</h2>
+      <p>The package is a UPM package. Two ways to add it:</p>
+      <h3>Option A — local folder (while developing)</h3>
+      <pre><code>// Packages/manifest.json
+"dependencies": {
+  "com.imasu.steamworks": "file:Packages/com.imasu.steamworks",
+  "com.mirrornetworking.mirror": "file:Packages/com.mirrornetworking.mirror"
+}</code></pre>
+      <h3>Option B — git URL (for other developers)</h3>
+      <pre><code>"com.imasu.steamworks": "https://github.com/Imasu7/Hidden-Dev-HDRP.git?path=Packages/com.imasu.steamworks"
+"com.mirrornetworking.mirror": "file:Packages/com.mirrornetworking.mirror"</code></pre>
+      <div class="note warn">
+        Mirror is vendored as an embedded package (<code>com.mirrornetworking.mirror</code>) because the official
+        Mirror repo ships a <code>.unitypackage</code>, not a <code>package.json</code>. Copy it next to this package.
+      </div>
+
+      <h2>1.2 Required project pieces</h2>
+      <table>
+        <tr><th>Item</th><th>Where</th><th>Why</th></tr>
+        <tr><td><code>steam_appid.txt</code></td><td>Project root</td><td>Facepunch reads the App ID from here. Dev value: <code>480</code> (Spacewar).</td></tr>
+        <tr><td>TextMeshPro Essentials</td><td><code>Assets/TextMesh Pro/Resources/TMP Settings.asset</code></td><td>Runtime TMP text NREs if missing.</td></tr>
+        <tr><td>Scenes in Build Settings</td><td>MainMenu, WaitingRoom, Game (+, your maps)</td><td>Mirror needs offline/online/match scenes. The Control Center validates + syncs this.</td></tr>
+        <tr><td><strong>An ImasuSteamworksConfig asset</strong></td><td>Anywhere in <code>Assets/</code></td><td><strong>Required.</strong> The addon hard-blocks hosting/joining if the master has no config wired. Create via <code>Imasu → Steamworks Control Center</code>.</td></tr>
+        <tr><td>Steam running</td><td>—</td><td>Required for Steam lobbies/voice/transport.</td></tr>
+      </table>
+
+      <div class="note">
+        <strong>Two presets ship with the project:</strong> <code>Assets/Config/ImasuSteamworksConfig_Hidden.asset</code>
+        (the Hidden game's working config, wired to the <code>ImasuSessionManager</code> prefab/scenes) and a starter
+        template <code>ImasuSteamworksConfig_Template</code> in the package's <code>Samples~/StarterConfig</code>
+        (import it into a new project as your starting point). <strong>Kill-switch:</strong> untick
+        <em>Imasu Steamworks enabled</em> in the Control Center to run the game without the addon — no hard errors, Steam untouched.
+      </div>
+
+      <div class="note">
+        <strong>One global config, not per-map.</strong> A single <code>ImasuSteamworksConfig</code> asset drives the
+        whole project. The <strong>Active Config</strong> picker at the top of the Control Center says which asset is in
+        use — switch it there (the choice is saved and auto-applied), not in the scene. Maps are just <em>scene names</em>
+        inside <code>gameModes[] → maps[]</code>; there is no separate per-map config. The <code>ImasuSteamworksMaster</code>
+        on each <code>ImasuSessionManager</code> is only an <em>instance mirror</em> of that one asset (at runtime the first
+        manager survives as a <code>DontDestroyOnLoad</code> singleton, so the config stays global across scenes).
+      </div>
+
+      <h2>1.3 The ImasuSessionManager object</h2>
+      <p>Every multiplayer scene contains a <strong>ImasuSessionManager</strong> prefab instance (the required
+      per-scene contract — a map without it won't appear in the catalog). Only the first one survives at runtime
+      (<code>DontDestroyOnLoad</code>); later scene instances self-destroy. In this project the
+      <code>ProductionSceneBuilder</code> creates it; in a new project you add it manually:</p>
+      <ol>
+        <li>Open <code>Imasu → Steamworks Control Center</code>.</li>
+        <li>Pick your config in the <strong>Active Config</strong> field at the top (the choice is saved and
+          auto-applied to Session Managers in open scenes). If you have none yet, click <strong>Create New Config</strong>.</li>
+        <li>Open the scene and click <strong>Add Session Manager to Scene</strong> in the Control Center bottom bar — it instantiates the prefab for you.</li>
+        <li>Add these components to that same GameObject (all auto-wire via <code>FindFirstObjectByType</code> if left blank):
+          <code>ImasuNetworkManager</code>, <code>FizzyFacepunch</code>, <code>KcpTransport</code>, <code>SteamManager</code>, <code>SteamLobbyManager</code>, <code>ImasuSessionUI</code>, <code>ImasuSteamworksMaster</code>, <code>SpawnManager</code>.</li>
+        <li>Place <strong>Player Spawns</strong> (Control Center → Spawns &amp; Teams → Add Spawn Point / Area) — players spawn there, team-filtered and anti-clump.</li>
+        <li>Set <code>ImasuNetworkManager.playerPrefab</code> to your networked player prefab.</li>
+      </ol>
+
+      <div class="screenshot-placeholder">
+        <!-- SCREENSHOT: ImasuSessionManager GameObject with all components in the Inspector -->
+        Screenshot placeholder — ImasuSessionManager inspector
+      </div>
+
+      <h2>1.4 First run</h2>
+      <p>Press Play with Steam running. You should land on the main menu:</p>
+      <ul>
+        <li><strong>Join Game</strong> — enter a 7-character code, an IP/hostname, or browse Steam + LAN servers.</li>
+        <li><strong>Host Game</strong> — pick a <strong>Gamemode</strong> then its <strong>Map</strong> (both from the config's catalog), set name, max players, voice distance, security; optionally disable Steam networking.</li>
+        <li><strong>Settings</strong> — display, audio, controls (incl. mouse sensitivity and per-user VOIP volume).</li>
+        <li><strong>ESC</strong> closes any open modal (invite list, dropdown popups) — it never navigates between screens.</li>
+      </ul>
+      <p>In-match, the host opens the pause menu and uses <strong>Change Map</strong> to move the whole party to another map from the config's catalog.</p>
+
+      <div class="note">Everything beyond here is configurable — see <a href="02-master-window.html">Control Center</a> for every field.</div>
+      <div class="footer">Imasu Steamworks · Getting Started · 2026-08-24</div>
+    </main>
+  </div>
+</body>
+</html>

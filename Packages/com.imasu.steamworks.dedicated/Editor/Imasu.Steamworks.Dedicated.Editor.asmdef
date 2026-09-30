@@ -1,0 +1,21 @@
+{
+  "name": "Imasu.Steamworks.Dedicated.Editor",
+  "rootNamespace": "Imasu.Steamworks.Editor",
+  "references": [
+    "Imasu.Steamworks.Editor",
+    "Imasu.Steamworks",
+    "Imasu.Steamworks.Dedicated",
+    "Mirror"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
